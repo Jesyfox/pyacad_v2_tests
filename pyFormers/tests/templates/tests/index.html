@@ -1,0 +1,14 @@
+{% extends "tests/base.html" %}
+
+{% block content %}
+    <div>
+        <input name="title" id="title">
+        <input type="submit" value="Search">
+    </div>
+    <h1>Avalible quiz:</h1>
+    {% for category in categories %}
+        <div>
+            <h2><a href="{% url 'category_detail' category.id %}" >{{ category }}</a></h2>
+        </div>
+    {% endfor %}
+{% endblock %}
