@@ -1,6 +1,7 @@
 .idea/
 pyFormers/__pycache__
 pyFormers/pyFormers/__pycache__/
+pyFormers/tests/migrations/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
