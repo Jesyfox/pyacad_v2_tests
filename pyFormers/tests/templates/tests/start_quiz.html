@@ -1,0 +1,14 @@
+{% extends "tests/base.html" %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+            {% for q in questions %}
+            <div>
+                {{ q.question_text }}
+                <p>{{ form }}</p>
+            </div>
+            {% endfor %}
+        <input type="submit" name="start" value="Done">
+    </form>
+{% endblock %}
