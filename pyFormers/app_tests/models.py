@@ -18,5 +18,5 @@ class Questions(models.Model):
 
 
 class Answers(models.Model):
-    question_id = models.ForeignKey(Questions, on_delete=models.CASCADE)
-    answer_text = models.TextField()
+    question_id = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='q_id')
+    answer_text = models.CharField(max_length=300)
