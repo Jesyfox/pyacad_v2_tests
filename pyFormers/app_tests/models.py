@@ -1,22 +1,23 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 
-class Categories(models.Model):
+class Question(models.Model):
+    text = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f'{self.text}'
+
+
+class Test(models.Model):
     name = models.CharField(max_length=100)
-    info = models.TextField()
+    questions = models.ManyToManyField(Question)
 
     def __str__(self):
         return f'{self.name}'
 
 
-class Questions(models.Model):
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    question_text = models.CharField(max_length=300)
-
-    def __str__(self):
-        return f'{self.category}: {self.question_text}'
-
-
-class Answers(models.Model):
-    question_id = models.ForeignKey(Questions, on_delete=models.CASCADE, related_name='q_id')
-    answer_text = models.CharField(max_length=300)
+class RunTest(models.Model):
+    name = models.CharField(max_length=100)
+    questions = ArrayField(models.CharField(max_length=200))
+    answers = ArrayField(models.CharField(max_length=200))

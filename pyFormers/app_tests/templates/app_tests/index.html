@@ -7,10 +7,10 @@
         <input type="submit" name="search" value="Search">
         </form>
     </div>
-    <h1>Avalible quiz:</h1>
-    {% for category in categories %}
+    <h1>Avalible quiz: <a href="">create new</a></h1>
+    {% for test in tests %}
         <div>
-            <h2><a href="{% url 'category_detail' category.id %}" >{{ category }}</a></h2>
+            <h2><a href="{% url 'test_detail' test.id %}" >{{ test }}</a></h2>
         </div>
     {% endfor %}
 {% endblock %}
