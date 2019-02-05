@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
 
 
 class Question(models.Model):
@@ -19,5 +18,10 @@ class Test(models.Model):
 
 class RunTest(models.Model):
     name = models.CharField(max_length=100)
-    questions = ArrayField(models.CharField(max_length=200))
-    answers = ArrayField(models.CharField(max_length=200))
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+
+
+class RunTestAnswers(models.Model):
+    run_test = models.ForeignKey(RunTest, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=300)

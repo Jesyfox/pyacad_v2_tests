@@ -7,10 +7,12 @@
         <input type="submit" name="search" value="Search">
         </form>
     </div>
-    <h1>Avalible quiz: <a href="">create new</a></h1>
+    <h1><a href="{% url 'app_tests:new_object' 'test' %}">new test</a>
+        <a href="{% url 'app_tests:new_object' 'question' %}">new question</a></h1>
+    <h1>Avalible quiz:</h1>
     {% for test in tests %}
         <div>
-            <h2><a href="{% url 'test_detail' test.id %}" >{{ test }}</a></h2>
+            <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >{{ test }}</a></h2>
         </div>
     {% endfor %}
 {% endblock %}
