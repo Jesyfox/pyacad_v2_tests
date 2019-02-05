@@ -9,10 +9,13 @@
     </div>
     <h1><a href="{% url 'app_tests:new_object' 'test' %}">new test</a>
         <a href="{% url 'app_tests:new_object' 'question' %}">new question</a></h1>
-    <h1>Avalible quiz:</h1>
+    <h1>Avalible tests:</h1>
+    <div>
     {% for test in tests %}
         <div>
             <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >{{ test }}</a></h2>
         </div>
     {% endfor %}
+    </div>
+
 {% endblock %}

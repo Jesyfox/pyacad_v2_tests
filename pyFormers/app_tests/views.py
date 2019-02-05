@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect
 from .models import Question, Test
-from .forms import TestForm
+from .forms import TestForm, QuestionForm
 
 
 def index(request):
     tests = None
+    questions = None
     context = {}
     if 'search' in request.GET:
-        tests = Test.objects.filter(name__icontains=request.GET['search'])
+        tests = Test.objects.filter(name__icontains=request.GET['title'])
     elif request.method == 'GET':
         tests = Test.objects.all()
-    context.update(tests=tests)
+        questions = Question.objects.all()
+    context.update(tests=tests, questions=questions)
     return render(request, 'app_tests/index.html', context=context)
 
 
@@ -21,23 +23,39 @@ def new_object(request, new_object):
             new_test = TestForm(request.POST)
             if new_test.is_valid():
                 new_test.save()
+
         elif new_object == 'question':
-            context.update(form='its question')
-        redirect('index')
+            new_question = QuestionForm(request.POST)
+            if new_question.is_valid():
+                new_question.save()
+            return redirect('/new_question')
+
+        return redirect('/')
+
     elif request.method == 'GET':
         if new_object == 'test':
             context.update(form=TestForm)
         elif new_object == 'question':
-            context.update(form='its question')
+            questions = Question.objects.all()
+            context.update(form=QuestionForm, questions=questions)
+
         return render(request, 'app_tests/new_object.html', context=context)
+
+
+def delete_question(request, q_id):
+    Question.objects.filter(id=q_id).delete()
+    return new_object(request, 'question')
 
 
 def detail_of_test(request, test_id):
     if 'start_test' in request.GET:
         return run_test(request, test_id)
+    elif 'delete_test' in request.GET:
+        Test.objects.filter(id=test_id).delete()
+        return redirect('/')
     elif request.method == 'GET':
-        tests = Test.objects.filter(id=test_id)[0]
-        context = {'tests': tests}
+        tests = Test.objects.get(id=test_id)
+        context = {'test': tests}
         return render(request, 'app_tests/test_info.html', context=context)
 
 
