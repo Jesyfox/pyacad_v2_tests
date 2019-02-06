@@ -48,15 +48,45 @@ def delete_question(request, q_id):
 
 
 def detail_of_test(request, test_id):
+    context = {}
     if 'start_test' in request.GET:
         return run_test(request, test_id)
+    elif 'edit_test' in request.GET:
+        return edit_test(request, test_id)
     elif 'delete_test' in request.GET:
         Test.objects.filter(id=test_id).delete()
         return redirect('/')
     elif request.method == 'GET':
         tests = Test.objects.get(id=test_id)
-        context = {'test': tests}
+        context.update(test=tests)
         return render(request, 'app_tests/test_info.html', context=context)
+
+
+def edit_test(request, test_id):
+    context = {}
+    if request.method == 'GET':
+        test = Test.objects.get(id=test_id)
+        test_questions = test.questions.all()
+        questions = Question.objects.all()
+
+        context.update(test=test,
+                       test_questions=test_questions,
+                       questions=questions)
+        return render(request, 'app_tests/edit_test.html', context=context)
+
+
+def remove_q(request, test_id, q_id):
+    test = Test.objects.get(id=test_id)
+    question = Question.objects.get(id=q_id)
+    test.questions.remove(question)
+    return edit_test(request, test_id)
+
+
+def add_q(request, test_id, q_id):
+    test = Test.objects.get(id=test_id)
+    question = Question.objects.get(id=q_id)
+    test.questions.add(question)
+    return edit_test(request, test_id)
 
 
 def run_test(request, category_id):
