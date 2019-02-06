@@ -4,7 +4,9 @@
     <form method="post">
         {% csrf_token %}
             <div>
-                <p>{{ form.as_p }}</p>
+                {% for f in form %}
+                <p>{{ f.as_p }}</p>
+                {% endfor %}
 
             </div>
         <input type="submit" name="start" value="Done">

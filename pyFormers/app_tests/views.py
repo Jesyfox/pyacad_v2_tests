@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Question, Test
-from .forms import TestForm, QuestionForm
+from .models import Question, Test, RunTest, RunTestAnswers
+from .forms import TestForm, QuestionForm, AnswerFormSet
+from django.forms.models import modelformset_factory
 
 
 def index(request):
@@ -58,7 +59,8 @@ def detail_of_test(request, test_id):
         return redirect('/')
     elif request.method == 'GET':
         tests = Test.objects.get(id=test_id)
-        context.update(test=tests)
+        questions = tests.questions.all()
+        context.update(test=tests, questions=questions)
         return render(request, 'app_tests/test_info.html', context=context)
 
 
@@ -89,10 +91,15 @@ def add_q(request, test_id, q_id):
     return edit_test(request, test_id)
 
 
-def run_test(request, category_id):
+def run_test(request, test_id):
+    from django.forms.models import modelformset_factory
+
     if request.method == 'POST':
         print('\n' * 10, request.POST)
     elif request.method == 'GET':
-        form = None
-        context = {'form': form}
+        test = Test.objects.get(id=test_id)
+        test_run = RunTest(name=test.name, test=test)
+        test_run_answers = RunTestAnswers(run_test=test_run)
+
+        context = {'form': modelformset_factory(test_run_answers, exclude=['run_test'])}
         return render(request, 'app_tests/start_quiz.html', context=context)

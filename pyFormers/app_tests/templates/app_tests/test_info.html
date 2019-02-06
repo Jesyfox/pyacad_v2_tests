@@ -3,6 +3,9 @@
 {% block content %}
     <div>
         <h1>{{ test }}</h1>
+        {% for q in questions %}
+        <p>{{ q }} </p>
+        {% endfor %}
 
         <form>
             <input type="submit" name="start_test" value="Start Quiz">
