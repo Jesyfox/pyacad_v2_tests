@@ -60,7 +60,8 @@ def detail_of_test(request, test_id):
     elif request.method == 'GET':
         tests = Test.objects.get(id=test_id)
         questions = tests.questions.all()
-        context.update(test=tests, questions=questions)
+        run_tests = RunTest.objects.filter(test=tests)
+        context.update(test=tests, questions=questions, run_tests=run_tests)
         return render(request, 'app_tests/test_info.html', context=context)
 
 
@@ -103,12 +104,22 @@ def run_test(request, test_id):
             run_test_obj = RunTest(name=test.name, test=test)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
-                run_test_answer = RunTestAnswers(run_test=run_test_obj, question=q, answer=a.values())
+                run_test_answer = RunTestAnswers(run_test=run_test_obj, question=q, answer=a['Answer'])
                 run_test_answer.save()
             return redirect(f'/tests/{test_id}')
 
     context = {'formset': dict(zip(questions, answer_form_set)),
                'manage_form': answer_form_set}
     return render(request, 'app_tests/start_quiz.html', context=context)
+
+
+def run_test_detail(request, runtest_id):
+    run_test_obj = RunTest.objects.filter(id=runtest_id)
+    run_tests_answers = RunTestAnswers.objects.filter(run_test__in=run_test_obj)
+
+    context = {'run_test': run_test_obj, 'run_tests_answers': run_tests_answers}
+    print(run_tests_answers, '\n'*10)
+
+    return render(request, 'app_tests/run_test_detail.html', context=context)
 
 

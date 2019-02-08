@@ -12,5 +12,12 @@
             <input type="submit" name="delete_test" value="delete">
             <input type="submit" name="edit_test" value="edit">
         </form>
+
+        <h1>Run Tests</h1>
+
+        {% for rt in run_tests %}
+        <h2><p><a href="{% url 'app_tests:run_test_detail' rt.id %}">{{ rt.name }}</a></p></h2>
+        {% endfor %}
+
     </div>
 {% endblock %}
