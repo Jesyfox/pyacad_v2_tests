@@ -1,6 +1,5 @@
-from django.forms.models import modelformset_factory, BaseModelFormSet
 from django import forms
-from .models import Test, Question, RunTestAnswers, RunTest
+from .models import Test, Question
 
 
 class TestForm(forms.ModelForm):
@@ -15,4 +14,6 @@ class QuestionForm(forms.ModelForm):
         fields = ['text', ]
 
 
-AnswerFormSet = modelformset_factory(RunTestAnswers, exclude=['run_test'], formset=BaseModelFormSet, extra=0)
+class AnswerForm(forms.Form):
+    Answer = forms.CharField()
+

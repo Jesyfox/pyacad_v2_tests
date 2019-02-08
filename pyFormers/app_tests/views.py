@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
+from django.forms.models import formset_factory
 from .models import Question, Test, RunTest, RunTestAnswers
-from .forms import TestForm, QuestionForm, AnswerFormSet
-from django.forms.models import modelformset_factory
+from .forms import TestForm, QuestionForm, AnswerForm
 
 
 def index(request):
@@ -92,14 +92,23 @@ def add_q(request, test_id, q_id):
 
 
 def run_test(request, test_id):
-    from django.forms.models import modelformset_factory
+    test = Test.objects.get(id=test_id)
+    questions = test.questions.all()
+    answer_factory = formset_factory(AnswerForm, min_num=len(questions))
+    answer_form_set = answer_factory()
 
     if request.method == 'POST':
-        print('\n' * 10, request.POST)
-    elif request.method == 'GET':
-        test = Test.objects.get(id=test_id)
-        test_run = RunTest(name=test.name, test=test)
-        test_run_answers = RunTestAnswers(run_test=test_run)
+        answer_form_set = answer_factory(request.POST)
+        if answer_form_set.is_valid():
+            run_test_obj = RunTest(name=test.name, test=test)
+            run_test_obj.save()
+            for q, a in zip(questions, answer_form_set.cleaned_data):
+                run_test_answer = RunTestAnswers(run_test=run_test_obj, question=q, answer=a.values())
+                run_test_answer.save()
+            return redirect(f'/tests/{test_id}')
 
-        context = {'form': modelformset_factory(test_run_answers, exclude=['run_test'])}
-        return render(request, 'app_tests/start_quiz.html', context=context)
+    context = {'formset': dict(zip(questions, answer_form_set)),
+               'manage_form': answer_form_set}
+    return render(request, 'app_tests/start_quiz.html', context=context)
+
+
