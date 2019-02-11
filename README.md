@@ -15,3 +15,4 @@ to start:
 6: `CREATE DATABASE tests_db;`
 
 7: `CREATE USER tester WITH PASSWORD '123456';`
+
