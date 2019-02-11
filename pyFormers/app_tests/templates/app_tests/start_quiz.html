@@ -1,0 +1,16 @@
+{% extends "app_tests/base.html" %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+            <div>
+                {{ manage_form.management_form }}
+                {% for q, f in formset.items %}
+                <h2><p>{{ q }}</p></h2>
+                <p>{{ f }}</p>
+                {% endfor %}
+
+            </div>
+        <input type="submit" name="start" value="Done">
+    </form>
+{% endblock %}
