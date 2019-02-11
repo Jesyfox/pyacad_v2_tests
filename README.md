@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # pyacad_v2_tests
 
 to start:
@@ -13,3 +14,6 @@ to start:
 5: `psql`
 
 6: ``
+=======
+# pyacad_v2_tests
+>>>>>>> b803d19ca92f1261cf8109c6257cbcb9d8787721
