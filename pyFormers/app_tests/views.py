@@ -104,7 +104,7 @@ def run_test(request, test_id):
             run_test_obj = RunTest(name=test.name, test=test)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
-                run_test_answer = RunTestAnswers(run_test=run_test_obj, question=q, answer=a['Answer'])
+                run_test_answer = RunTestAnswers(run_test=run_test_obj, question=str(q), answer=a['Answer'])
                 run_test_answer.save()
             return redirect(f'/tests/{test_id}')
 

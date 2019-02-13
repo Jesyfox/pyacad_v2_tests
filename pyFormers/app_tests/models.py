@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+
 class Question(models.Model):
     text = models.CharField(max_length=300)
 
@@ -27,7 +28,7 @@ class RunTest(models.Model):
 
 class RunTestAnswers(models.Model):
     run_test = models.ForeignKey(RunTest, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.CharField(max_length=300)
     answer = models.CharField(max_length=300)
 
     def __str__(self):
