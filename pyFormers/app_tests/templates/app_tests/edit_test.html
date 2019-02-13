@@ -2,13 +2,18 @@
 
 {% block content %}
     <div>
-        <h1>{{ test }}</h1>
+        <h1>Test: {{ test }}</h1>
+        <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >back</a></h2>
         {% for q in test_questions %}
         <p>{{ q }} <a href="{% url 'app_tests:remove_q' test.id q.id %}">remove</a></p>
         {% endfor %}
         <h1>Avalible questions:</h1>
+        {% if questions %}
         {% for q in questions %}
         <p>{{ q }} <a href="{% url 'app_tests:add_q' test.id q.id %}">add</a></p></p>
         {% endfor %}
+        {% else %}
+        <h2>no questions yet!</h2>
+        {% endif %}
     </div>
 {% endblock %}

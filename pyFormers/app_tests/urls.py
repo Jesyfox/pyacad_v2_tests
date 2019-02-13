@@ -9,5 +9,7 @@ urlpatterns = [
     path('tests/<int:test_id>/add/<int:q_id>', views.add_q, name='add_q'),
     path('question/delete/<int:q_id>', views.delete_question, name='delete_question'),
     path('new_<str:new_object>', views.new_object, name='new_object'),
-    path('tests/run_tests/<int:runtest_id>', views.run_test_detail, name='run_test_detail')
+    path('tests/run_tests/<int:runtest_id>', views.run_test_detail, name='run_test_detail'),
+    path('tests/notes/<int:test_id>', views.test_notes, name='test_notes'),
+    path('tests/run_tests/notes/<int:runtest_id>', views.run_test_notes, name='run_test_notes')
 ]

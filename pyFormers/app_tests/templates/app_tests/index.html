@@ -12,6 +12,9 @@
 
     {% if tests %}
     <h1>Avalible tests:</h1>
+        {% if not_found_tests %}
+            no match
+        {% endif %}
     <div>
     {% for test in tests %}
         <div>
