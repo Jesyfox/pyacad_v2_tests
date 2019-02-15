@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, HttpResponseRedirect
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
 
@@ -24,7 +26,12 @@ def new_object(request, new_object):
         if new_object == 'test':
             new_test = TestForm(request.POST)
             if new_test.is_valid():
-                new_test.save()
+                named_test = new_test.save(commit=False)
+                if request.user.is_authenticated:
+                    named_test.user = request.user.username
+                else:
+                    named_test.user = 'Anonymous'
+                named_test.save()
 
         elif new_object == 'question':
             new_question = QuestionForm(request.POST)
@@ -108,7 +115,11 @@ def run_test(request, test_id):
     if request.method == 'POST':
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
-            run_test_obj = RunTest(name=test.name, test=test)
+            if request.user.is_authenticated:
+                user_name = request.user.username
+            else:
+                user_name = 'Anonymous'
+            run_test_obj = RunTest(name=test.name, test=test, user=user_name)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
                 run_test_answer = RunTestAnswers(run_test=run_test_obj, question=str(q), answer=a['Answer'])
@@ -166,3 +177,35 @@ def test_notes(request, test_id):
             note_item.save()
 
     return render(request, 'app_tests/notes.html', context=context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    context = {'form': form}
+
+    return render(request, 'app_tests/signup_v.html', context=context)
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return redirect('/')
+    return render(request, 'app_tests/login_v.html')

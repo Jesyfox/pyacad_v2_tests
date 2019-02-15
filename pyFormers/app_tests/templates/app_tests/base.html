@@ -8,6 +8,11 @@
 
     <div>
         <h1><a href="/"> Tests! </a></h1>
+        {% if user.is_authenticated %}
+        <p>loged as: {{ user.username }}, <a href="{% url 'app_tests:logout' %}">logout</a></p>
+        {% else %}
+        <p>Please <a href="{% url 'app_tests:signup' %}">register</a>/<a href="{% url 'app_tests:login' %}">login</a></p>
+        {% endif %}
     </div>
     <div>
         {% block content %}
