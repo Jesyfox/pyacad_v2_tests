@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, HttpResponseRedirect
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
 
@@ -166,3 +168,35 @@ def test_notes(request, test_id):
             note_item.save()
 
     return render(request, 'app_tests/notes.html', context=context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    context = {'form': form}
+
+    return render(request, 'app_tests/signup_v.html', context=context)
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return redirect('/')
+    return render(request, 'app_tests/login_v.html')
