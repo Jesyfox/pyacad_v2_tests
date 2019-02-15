@@ -69,6 +69,7 @@ def detail_of_test(request, test_id):
 
 def edit_test(request, test_id):
     context = {}
+
     if request.method == 'GET':
         test = get_object_or_404(Test, id=test_id)
         test_questions = test.questions.all()
@@ -81,19 +82,21 @@ def edit_test(request, test_id):
 
 
 def remove_q(request, test_id, q_id):
-    test = get_object_or_404(Test, id=test_id)
-    question = get_object_or_404(Question, id=q_id)
+    if request.method == 'POST':
+        test = get_object_or_404(Test, id=test_id)
+        question = get_object_or_404(Question, id=q_id)
 
-    test.questions.remove(question)
-    return edit_test(request, test_id)
+        test.questions.remove(question)
+        return redirect(f'/tests/{test_id}?edit_test=edit')
 
 
 def add_q(request, test_id, q_id):
-    test = Test.objects.get(id=test_id)
-    question = Question.objects.get(id=q_id)
+    if request.method == 'POST':
+        test = Test.objects.get(id=test_id)
+        question = Question.objects.get(id=q_id)
 
-    test.questions.add(question)
-    return edit_test(request, test_id)
+        test.questions.add(question)
+        return redirect(f'/tests/{test_id}?edit_test=edit')
 
 
 def run_test(request, test_id):

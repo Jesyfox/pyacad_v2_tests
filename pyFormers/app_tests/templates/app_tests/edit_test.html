@@ -5,15 +5,22 @@
         <h1>Test: {{ test }}</h1>
         <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >back</a></h2>
         {% for q in test_questions %}
-        <p>{{ q }} <a href="{% url 'app_tests:remove_q' test.id q.id %}">remove</a></p>
+
+        <form action="{% url 'app_tests:remove_q' test.id q.id %}" method="post">
+            {% csrf_token %}
+        <p>{{ q }} <input type="submit" value="remove" /></p>
         {% endfor %}
         <h1>Avalible questions:</h1>
         {% if questions %}
         {% for q in questions %}
-        <p>{{ q }} <a href="{% url 'app_tests:add_q' test.id q.id %}">add</a></p></p>
+        </form>
+            <form action="{% url 'app_tests:add_q' test.id q.id %}" method="post">
+                {% csrf_token %}
+        <p>{{ q }} <input type="submit" value="add" /></p>
         {% endfor %}
         {% else %}
         <h2>no questions yet!</h2>
         {% endif %}
+        </form>
     </div>
 {% endblock %}
