@@ -9,7 +9,12 @@
     </div>
     <h1><a href="{% url 'app_tests:new_object' 'test' %}">new test</a>
         <a href="{% url 'app_tests:new_object' 'question' %}">new question</a></h1>
+
+    {% if tests %}
     <h1>Avalible tests:</h1>
+        {% if not_found_tests %}
+            no match
+        {% endif %}
     <div>
     {% for test in tests %}
         <div>
@@ -17,5 +22,6 @@
         </div>
     {% endfor %}
     </div>
+    {% endif %}
 
 {% endblock %}

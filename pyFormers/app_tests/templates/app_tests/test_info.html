@@ -2,10 +2,13 @@
 
 {% block content %}
     <div>
-        <h1>{{ test }}</h1>
+        <p><h1>Test: {{ test }}</h1> <h3><a href="{% url 'app_tests:test_notes' test.id %}">discuss...</a></h3></p>
+        {% if questions %}
+        <h2>Questions:</h2>
         {% for q in questions %}
         <p>{{ q }} </p>
         {% endfor %}
+        {% endif %}
 
         <form>
             <input type="submit" name="start_test" value="Start Quiz">
@@ -13,11 +16,15 @@
             <input type="submit" name="edit_test" value="edit">
         </form>
 
-        <h1>Run Tests</h1>
+        {% if run_tests %}
+
+        <h1>Run Tests:</h1>
 
         {% for rt in run_tests %}
         <h2><p><a href="{% url 'app_tests:run_test_detail' rt.id %}">{{ rt.name }}</a></p></h2>
         {% endfor %}
+
+        {% endif %}
 
     </div>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 {% block content %}
     <form method="post">
+        <h1>Test: {{ test }}</h1>
+        <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >back</a></h2>
         {% csrf_token %}
             <div>
                 {{ manage_form.management_form }}
@@ -11,6 +13,10 @@
                 {% endfor %}
 
             </div>
+        {% if formset.items %}
         <input type="submit" name="start" value="Done">
+        {% else %}
+        <h1>No questions yet!</h1>
+        {% endif %}
     </form>
 {% endblock %}
