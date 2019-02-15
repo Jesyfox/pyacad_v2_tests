@@ -129,10 +129,10 @@ def run_test_detail(request, runtest_id):
 
 def run_test_notes(request, runtest_id):
     run_test_obj = RunTest.objects.get(id=runtest_id)
-    context = {'type_info': 'run_test',
+    context = {'type_info': run_test_obj.name,
                'form': NoteForm,
                'notes_obj': NotedItem.objects.filter(content_type=ContentType.objects.get_for_model(run_test_obj),
-                                                    object_id=runtest_id)}
+                                                     object_id=runtest_id)}
 
     if request.method == 'POST':
         note_form = NoteForm(request.POST)
@@ -147,12 +147,19 @@ def run_test_notes(request, runtest_id):
 
 
 def test_notes(request, test_id):
-    test_obj = RunTest.objects.get(id=test_id)
-    context = {'type_info': 'test', 'form': NoteForm}
+    test_obj = Test.objects.get(id=test_id)
+    context = {'type_info': test_obj.name,
+               'form': NoteForm,
+               'notes_obj': NotedItem.objects.filter(content_type=ContentType.objects.get_for_model(test_obj),
+                                                     object_id=test_id)}
 
     if request.method == 'POST':
         note_form = NoteForm(request.POST)
         if note_form.is_valid():
-            pass
+            note = Note.objects.create(note=note_form.cleaned_data['note'])
+            note_item = NotedItem(note=note,
+                                  content_type=ContentType.objects.get_for_model(test_obj),
+                                  object_id=test_id)
+            note_item.save()
 
     return render(request, 'app_tests/notes.html', context=context)
