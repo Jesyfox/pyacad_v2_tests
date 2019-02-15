@@ -13,6 +13,7 @@ class Question(models.Model):
 class Test(models.Model):
     name = models.CharField(max_length=100)
     questions = models.ManyToManyField(Question)
+    user = models.CharField(max_length=50)
 
     def __str__(self):
         return f'{self.name}'
@@ -21,6 +22,7 @@ class Test(models.Model):
 class RunTest(models.Model):
     name = models.CharField(max_length=100)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    user = models.CharField(max_length=50)
 
     def __str__(self):
         return f'{self.name}'
