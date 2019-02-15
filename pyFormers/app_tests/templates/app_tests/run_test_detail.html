@@ -3,7 +3,7 @@
 {% block content %}
     <div>
         <h3><a href="{% url 'app_tests:run_test_notes' run_test.0.id %}">discuss...</a></h3></p>
-        <h2>{{ run_test.0.name }}</h2>
+        <h2>Run test: {{ run_test.0.name }}</h2>
         {% for rta in run_tests_answers %}
         <p>Question: {{ rta.question }}</p>
         <p>Answer: {{ rta.answer }}</p>
