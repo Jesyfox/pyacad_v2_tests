@@ -27,7 +27,10 @@ def new_object(request, new_object):
             new_test = TestForm(request.POST)
             if new_test.is_valid():
                 named_test = new_test.save(commit=False)
-                named_test.user = request.user.username
+                if request.user.is_authenticated:
+                    named_test.user = request.user.username
+                else:
+                    named_test.user = 'Anonymous'
                 named_test.save()
 
         elif new_object == 'question':
@@ -112,7 +115,11 @@ def run_test(request, test_id):
     if request.method == 'POST':
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
-            run_test_obj = RunTest(name=test.name, test=test, user=request.user.username)
+            if request.user.is_authenticated:
+                user_name = request.user.username
+            else:
+                user_name = 'Anonymous'
+            run_test_obj = RunTest(name=test.name, test=test, user=user_name)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
                 run_test_answer = RunTestAnswers(run_test=run_test_obj, question=str(q), answer=a['Answer'])
