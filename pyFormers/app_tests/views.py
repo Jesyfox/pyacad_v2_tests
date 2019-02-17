@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
 
@@ -196,16 +196,24 @@ def sign_up(request):
             return redirect('/')
     else:
         form = UserCreationForm()
-    context = {'form': form}
-
-    return render(request, 'app_tests/signup_v.html', context=context)
+        context = {'form': form}
+        return render(request, 'app_tests/signup_v.html', context=context)
 
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        raw_password = request.POST['password']
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return redirect('/')
-    return render(request, 'app_tests/login_v.html')
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+        else:
+            context = {'form': form}
+            return render(request, 'app_tests/login_v.html', context=context)
+    else:
+        form = AuthenticationForm()
+        context = {'form': form}
+        return render(request, 'app_tests/login_v.html', context=context)
