@@ -3,7 +3,9 @@
 {% block content %}
     <div>
         <p><h1>Test: {{ test }}</h1> </p>
+        {% if test.user %}
         <p><h2>By: {{ test.user }}</h2></p>
+        {% endif %}
         <h3><a href="{% url 'app_tests:test_notes' test.id %}">discuss...</a></h3>
         {% if questions %}
         <h2>Questions:</h2>

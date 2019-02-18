@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
@@ -34,7 +35,7 @@ def new_object(request, new_object):
             if new_test.is_valid():
                 named_test = new_test.save(commit=False)
                 if request.user.is_authenticated:
-                    named_test.user = request.user.username
+                    named_test.user = User.objects.get(id=request.user.id)
                 else:
                     named_test.user = None
                 named_test.save()
@@ -48,7 +49,6 @@ def new_object(request, new_object):
                     days = int(new_test.cleaned_data['count'])
                     time_to_exp = now() + timedelta(days=days)
                     delete_test.apply_async((named_test.id,), eta=time_to_exp)
-
 
         elif new_object == 'question':
             new_question = QuestionForm(request.POST)
@@ -133,7 +133,7 @@ def run_test(request, test_id):
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
             if request.user.is_authenticated:
-                user_name = request.user.username
+                user_name = User.objects.get(id=request.user.id)
             else:
                 user_name = None
             run_test_obj = RunTest(name=test.name, test=test, user=user_name)
