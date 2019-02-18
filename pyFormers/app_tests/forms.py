@@ -7,6 +7,14 @@ class TestForm(forms.ModelForm):
         model = Test
         fields = ['name', ]
 
+    options = (
+        ('10', 'None'),
+        ('20', 'Minutes'),
+        ('30', 'Days')
+    )
+    delay = forms.ChoiceField(label='Delay', widget=forms.Select, choices=options)
+    count = forms.CharField(label='Count', widget=forms.NumberInput, required=False)
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:

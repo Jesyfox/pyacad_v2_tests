@@ -1,10 +1,14 @@
+from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, HttpResponseRedirect
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.utils.timezone import now
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
+from .tasks import delete_test
 
 
 def index(request):
@@ -21,6 +25,9 @@ def index(request):
 
 
 def new_object(request, new_object):
+    MINUTES = '20'
+    DAYS = '30'
+
     context = {'name': new_object}
     if request.method == 'POST':
         if new_object == 'test':
@@ -28,10 +35,20 @@ def new_object(request, new_object):
             if new_test.is_valid():
                 named_test = new_test.save(commit=False)
                 if request.user.is_authenticated:
-                    named_test.user = request.user.username
+                    named_test.user = User.objects.get(id=request.user.id)
                 else:
-                    named_test.user = 'Anonymous'
+                    named_test.user = None
                 named_test.save()
+
+                if new_test.cleaned_data['delay'] == MINUTES:
+                    minutes = int(new_test.cleaned_data['count'])
+                    time_to_exp = now() + timedelta(minutes=minutes)
+                    delete_test.apply_async((named_test.id,), eta=time_to_exp)
+
+                elif new_test.cleaned_data['delay'] == DAYS:
+                    days = int(new_test.cleaned_data['count'])
+                    time_to_exp = now() + timedelta(days=days)
+                    delete_test.apply_async((named_test.id,), eta=time_to_exp)
 
         elif new_object == 'question':
             new_question = QuestionForm(request.POST)
@@ -116,9 +133,9 @@ def run_test(request, test_id):
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
             if request.user.is_authenticated:
-                user_name = request.user.username
+                user_name = User.objects.get(id=request.user.id)
             else:
-                user_name = 'Anonymous'
+                user_name = None
             run_test_obj = RunTest(name=test.name, test=test, user=user_name)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
@@ -185,6 +202,7 @@ def logout_view(request):
 
 
 def sign_up(request):
+    context = {}
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -194,18 +212,29 @@ def sign_up(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('/')
-    else:
+        else:
+            context = {'form': form}
+            return render(request, 'app_tests/login_v.html', context=context)
+    elif request.method == 'GET':
         form = UserCreationForm()
-    context = {'form': form}
-
-    return render(request, 'app_tests/signup_v.html', context=context)
+        context.update(form=form)
+        return render(request, 'app_tests/signup_v.html', context=context)
 
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        raw_password = request.POST['password']
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return redirect('/')
-    return render(request, 'app_tests/login_v.html')
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+        else:
+            context = {'form': form}
+            return render(request, 'app_tests/login_v.html', context=context)
+    else:
+        form = AuthenticationForm()
+        context = {'form': form}
+        return render(request, 'app_tests/login_v.html', context=context)
