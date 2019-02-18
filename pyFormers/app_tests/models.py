@@ -2,17 +2,18 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class Question(models.Model):
-    text = models.CharField(max_length=300)
+    text = models.CharField(_('text'), max_length=300)
 
     def __str__(self):
         return f'{self.text}'
 
 
 class Test(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(_('name'), max_length=100)
     questions = models.ManyToManyField(Question)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -21,7 +22,7 @@ class Test(models.Model):
 
 
 class RunTest(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(_('name'), max_length=100)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -31,8 +32,8 @@ class RunTest(models.Model):
 
 class RunTestAnswers(models.Model):
     run_test = models.ForeignKey(RunTest, on_delete=models.CASCADE)
-    question = models.CharField(max_length=300)
-    answer = models.CharField(max_length=300)
+    question = models.CharField(_('question'), max_length=300)
+    answer = models.CharField(_('answer'), max_length=300)
 
     def __str__(self):
         return f'run_test "{self.run_test}", question: {self.question}, answer: {self.answer}'

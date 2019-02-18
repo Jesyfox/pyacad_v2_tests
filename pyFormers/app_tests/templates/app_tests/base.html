@@ -7,12 +7,29 @@
 <body>
 
     <div>
+        {% load i18n %}
+        <form action="{% url 'app_tests:set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Go">
+        </form>
         <h1><a href="/"> Tests! </a></h1>
         {% if user.is_authenticated %}
         <p>loged as: {{ user.username }}, <a href="{% url 'app_tests:logout' %}">logout</a></p>
         {% else %}
         <p>Please <a href="{% url 'app_tests:signup' %}">register</a>/<a href="{% url 'app_tests:login' %}">login</a></p>
         {% endif %}
+
+
     </div>
     <div>
         {% block content %}
