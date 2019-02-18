@@ -17,4 +17,4 @@ app.autodiscover_tasks()
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
-# celery -A app_tests worker -l info
+# celery -A app_tests worker --loglevel=info

@@ -1,10 +1,13 @@
+from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, HttpResponseRedirect
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.utils.timezone import now
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
+from .tasks import delete_test
 
 
 def index(request):
@@ -21,6 +24,9 @@ def index(request):
 
 
 def new_object(request, new_object):
+    MINUTES = '20'
+    DAYS = '30'
+
     context = {'name': new_object}
     if request.method == 'POST':
         if new_object == 'test':
@@ -30,8 +36,19 @@ def new_object(request, new_object):
                 if request.user.is_authenticated:
                     named_test.user = request.user.username
                 else:
-                    named_test.user = 'Anonymous'
+                    named_test.user = None
                 named_test.save()
+
+                if new_test.cleaned_data['delay'] == MINUTES:
+                    minutes = int(new_test.cleaned_data['count'])
+                    time_to_exp = now() + timedelta(minutes=minutes)
+                    delete_test.apply_async((named_test.id,), eta=time_to_exp)
+
+                elif new_test.cleaned_data['delay'] == DAYS:
+                    days = int(new_test.cleaned_data['count'])
+                    time_to_exp = now() + timedelta(days=days)
+                    delete_test.apply_async((named_test.id,), eta=time_to_exp)
+
 
         elif new_object == 'question':
             new_question = QuestionForm(request.POST)
@@ -118,7 +135,7 @@ def run_test(request, test_id):
             if request.user.is_authenticated:
                 user_name = request.user.username
             else:
-                user_name = 'Anonymous'
+                user_name = None
             run_test_obj = RunTest(name=test.name, test=test, user=user_name)
             run_test_obj.save()
             for q, a in zip(questions, answer_form_set.cleaned_data):
