@@ -185,6 +185,7 @@ def logout_view(request):
 
 
 def sign_up(request):
+    context = {}
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -194,9 +195,12 @@ def sign_up(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('/')
-    else:
+        else:
+            context = {'form': form}
+            return render(request, 'app_tests/login_v.html', context=context)
+    elif request.method == 'GET':
         form = UserCreationForm()
-        context = {'form': form}
+        context.update(form=form)
         return render(request, 'app_tests/signup_v.html', context=context)
 
 
