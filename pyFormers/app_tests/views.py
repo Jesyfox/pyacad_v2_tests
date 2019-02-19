@@ -6,6 +6,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
 from .tasks import delete_test
@@ -35,7 +36,7 @@ def new_object(request, new_object):
             if new_test.is_valid():
                 named_test = new_test.save(commit=False)
                 if request.user.is_authenticated:
-                    named_test.user = User.objects.get(id=request.user.id)
+                    named_test.user = request.user
                 else:
                     named_test.user = None
                 named_test.save()
@@ -60,10 +61,12 @@ def new_object(request, new_object):
 
     elif request.method == 'GET':
         if new_object == 'test':
-            context.update(form=TestForm)
+            name = _('test')
+            context.update(form=TestForm, name=name)
         elif new_object == 'question':
+            name = _('question')
             questions = Question.objects.all()
-            context.update(form=QuestionForm, questions=questions)
+            context.update(form=QuestionForm, questions=questions, name=name)
 
         return render(request, 'app_tests/new_object.html', context=context)
 
@@ -133,7 +136,7 @@ def run_test(request, test_id):
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
             if request.user.is_authenticated:
-                user_name = User.objects.get(id=request.user.id)
+                user_name = request.user
             else:
                 user_name = None
             run_test_obj = RunTest(name=test.name, test=test, user=user_name)

@@ -1,9 +1,9 @@
 {% extends "app_tests/base.html" %}
-
+{% load i18n %}
 {% block content %}
     <form method="post">
-        <h1>Test: {{ test }}</h1>
-        <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >back</a></h2>
+        <h1>{% trans "Test:" %} {{ test }}</h1>
+        <h2><a href="{% url 'app_tests:detail_of_test' test.id %}" >{% trans "back" %}</a></h2>
         {% csrf_token %}
             <div>
                 {{ manage_form.management_form }}
@@ -14,9 +14,9 @@
 
             </div>
         {% if formset.items %}
-        <input type="submit" name="start" value="Done">
+        <input type="submit" name="start" value="{% trans 'Done' %}">
         {% else %}
-        <h1>No questions yet!</h1>
+        <h1>{% trans "No questions yet!" %}</h1>
         {% endif %}
     </form>
 {% endblock %}

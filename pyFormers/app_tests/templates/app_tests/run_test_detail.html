@@ -1,15 +1,15 @@
 {% extends "app_tests/base.html" %}
-
+{% load i18n %}
 {% block content %}
     <div>
-        <h3><a href="{% url 'app_tests:run_test_notes' run_test.0.id %}">discuss...</a></h3></p>
-        <h2>Run test: {{ run_test.0.name }}</h2>
+        <h3><a href="{% url 'app_tests:run_test_notes' run_test.0.id %}">{% trans "discuss..." %}</a></h3></p>
+        <h2>{% trans "Run test:" %} {{ run_test.0.name }}</h2>
         {% if run_test.0.user %}
-        <h2>By: {{ run_test.0.user }}</h2>
+        <h2>{% trans "By:" %} {{ run_test.0.user }}</h2>
         {% endif %}
         {% for rta in run_tests_answers %}
-        <p>Question: {{ rta.question }}</p>
-        <p>Answer: {{ rta.answer }}</p>
+        <p>{% trans "Question:" %} {{ rta.question }}</p>
+        <p>{% trans "Answer:" %} {{ rta.answer }}</p>
         {% endfor %}
 
     </div>

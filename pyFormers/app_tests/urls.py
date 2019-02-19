@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -15,5 +15,6 @@ urlpatterns = [
     path('tests/<int:test_id>/run', views.run_test, name='run_test'),
     path('user/logout', views.logout_view, name='logout'),
     path('user/signup', views.sign_up, name='signup'),
-    path('user/login', views.login_view, name='login')
+    path('user/login', views.login_view, name='login'),
+    path('i18n/', include('django.conf.urls.i18n'), name='set_language'),
 ]

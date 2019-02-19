@@ -1,5 +1,6 @@
 from django import forms
 from .models import Test, Question, Note
+from django.utils.translation import gettext_lazy as _
 
 
 class TestForm(forms.ModelForm):
@@ -8,12 +9,12 @@ class TestForm(forms.ModelForm):
         fields = ['name', ]
 
     options = (
-        ('10', 'None'),
-        ('20', 'Minutes'),
-        ('30', 'Days')
+        ('10', _('None')),
+        ('20', _('Minutes')),
+        ('30', _('Days'))
     )
-    delay = forms.ChoiceField(label='Delay', widget=forms.Select, choices=options)
-    count = forms.CharField(label='Count', widget=forms.NumberInput, required=False)
+    delay = forms.ChoiceField(label=_('Delay'), widget=forms.Select, choices=options)
+    count = forms.CharField(label=_('Wait'), widget=forms.NumberInput, required=False)
 
 
 class QuestionForm(forms.ModelForm):
@@ -34,4 +35,4 @@ class NoteForm(forms.ModelForm):
 
 
 class AnswerForm(forms.Form):
-    Answer = forms.CharField()
+    Answer = forms.CharField(label=_('Answer'))
