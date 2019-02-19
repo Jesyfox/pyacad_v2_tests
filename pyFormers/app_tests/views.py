@@ -36,7 +36,7 @@ def new_object(request, new_object):
             if new_test.is_valid():
                 named_test = new_test.save(commit=False)
                 if request.user.is_authenticated:
-                    named_test.user = User.objects.get(id=request.user.id)
+                    named_test.user = request.user
                 else:
                     named_test.user = None
                 named_test.save()
@@ -136,7 +136,7 @@ def run_test(request, test_id):
         answer_form_set = answer_factory(request.POST)
         if answer_form_set.is_valid():
             if request.user.is_authenticated:
-                user_name = User.objects.get(id=request.user.id)
+                user_name = request.user
             else:
                 user_name = None
             run_test_obj = RunTest(name=test.name, test=test, user=user_name)
