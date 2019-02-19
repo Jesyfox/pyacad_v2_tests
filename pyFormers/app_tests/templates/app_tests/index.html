@@ -1,5 +1,5 @@
 {% extends "app_tests/base.html" %}
-
+{% load i18n %}
 {% block content %}
     <div>
         <form>
@@ -7,13 +7,13 @@
         <input type="submit" name="search" value="Search">
         </form>
     </div>
-    <h1><a href="{% url 'app_tests:new_object' 'test' %}">new test</a>
-        <a href="{% url 'app_tests:new_object' 'question' %}">new question</a></h1>
+    <h1><a href="{% url 'app_tests:new_object' 'test' %}">{% trans "new test" %}</a>
+        <a href="{% url 'app_tests:new_object' 'question' %}">{% trans "new question" %}</a></h1>
 
     {% if tests %}
     <h1>Avalible tests:</h1>
         {% if not_found_tests %}
-            no match
+            {% trans "no match" %}
         {% endif %}
     <div>
     {% for test in tests %}

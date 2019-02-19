@@ -1,22 +1,22 @@
 {% extends "app_tests/base.html" %}
-
+{% load i18n %}
 {% block content %}
     <h1>{{ type_info }}</h1>
 
-    <h2>Notes: </h2>
+    <h2>{% trans "Notes:" %} </h2>
     {% for n in notes_obj %}
     <div>
         {{ n.note }}
     </div>
     {% endfor %}
 
-    <h2>Add another: </h2>
+    <h2>{% trans "Add another:" %} </h2>
     <form method="post">
         {% csrf_token %}
 
         {{ form.as_p }}
 
-        <p><input type="submit" name="post_note" value="post"></p>
+        <p><input type="submit" name="post_note" value="{% trans 'post' %}"></p>
 
     </form>
 {% endblock %}

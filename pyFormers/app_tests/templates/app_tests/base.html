@@ -1,13 +1,13 @@
 <!DOCTYPE html>
+{% load i18n %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tests</title>
+    <title>{% trans "Tests" %}</title>
 </head>
 <body>
 
     <div>
-        {% load i18n %}
         <form action="{% url 'app_tests:set_language' %}" method="post">{% csrf_token %}
             <input name="next" type="hidden" value="{{ redirect_to }}">
             <select name="language">
@@ -20,13 +20,14 @@
                     </option>
                 {% endfor %}
             </select>
-            <input type="submit" value="Go">
+            <input type="submit" value="{% trans 'Go' %}">
         </form>
-        <h1><a href="/"> Tests! </a></h1>
+        <h1><a href="/"> {% trans "Tests!" %} </a></h1>
         {% if user.is_authenticated %}
-        <p>loged as: {{ user.username }}, <a href="{% url 'app_tests:logout' %}">logout</a></p>
+        <p>{% trans "loged as:" %} {{ user.username }}, <a href="{% url 'app_tests:logout' %}">logout</a></p>
         {% else %}
-        <p>Please <a href="{% url 'app_tests:signup' %}">register</a>/<a href="{% url 'app_tests:login' %}">login</a></p>
+        <p>{% trans "Please" %} <a href="{% url 'app_tests:signup' %}">{% trans "register" %}</a>
+            /<a href="{% url 'app_tests:login' %}">{% trans "login" %}</a></p>
         {% endif %}
 
 
