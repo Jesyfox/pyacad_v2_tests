@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-19 15:02+0000\n"
+"POT-Creation-Date: 2019-02-19 16:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,30 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: app_tests/forms.py:12
+msgid "None"
+msgstr "Ничего"
+
+#: app_tests/forms.py:13
+msgid "Minutes"
+msgstr "Минутах"
+
+#: app_tests/forms.py:14
+msgid "Days"
+msgstr "Днях"
+
+#: app_tests/forms.py:16
+msgid "Delay"
+msgstr "Отчет в"
+
+#: app_tests/forms.py:17
+msgid "Wait"
+msgstr "Ожидать"
+
+#: app_tests/forms.py:38
+msgid "Answer"
+msgstr "Ответ"
 
 #: app_tests/models.py:9
 msgid "text"
@@ -57,12 +81,12 @@ msgid "logout"
 msgstr "выйти"
 
 #: app_tests/templates/app_tests/base.html:29
-msgid "Please"
-msgstr "Пожалуйста"
+msgid "Please, sign up!"
+msgstr "Пожалуйста, войдите!"
 
 #: app_tests/templates/app_tests/base.html:29
 msgid "register"
-msgstr "зарегестрируйтесь"
+msgstr "регистрация"
 
 #: app_tests/templates/app_tests/base.html:30
 msgid "login"
@@ -86,7 +110,7 @@ msgstr "убрать"
 #: app_tests/templates/app_tests/edit_test.html:13
 #: app_tests/templates/app_tests/new_object.html:12
 msgid "Avalible questions:"
-msgstr "Доступные вопросы:"
+msgstr "Доступные вопросы"
 
 #: app_tests/templates/app_tests/edit_test.html:19
 msgid "add"
@@ -95,6 +119,10 @@ msgstr "добавить"
 #: app_tests/templates/app_tests/edit_test.html:22
 msgid "no questions yet!"
 msgstr "вопросов пока нет!"
+
+#: app_tests/templates/app_tests/index.html:7
+msgid "Search"
+msgstr "Поиск"
 
 #: app_tests/templates/app_tests/index.html:10
 msgid "new test"
@@ -105,21 +133,19 @@ msgid "new question"
 msgstr "новый вопрос"
 
 #: app_tests/templates/app_tests/index.html:14
-#, fuzzy
-#| msgid "Avalible questions:"
 msgid "Avalible tests:"
-msgstr "Доступные вопросы:"
+msgstr "Доступные тесты"
 
 #: app_tests/templates/app_tests/index.html:16
 msgid "no match"
-msgstr "совпадений нет"
+msgstr "совпадееий нет"
 
 #: app_tests/templates/app_tests/login_v.html:4
 #: app_tests/templates/app_tests/login_v.html:8
 #: app_tests/templates/app_tests/signup_v.html:4
 #: app_tests/templates/app_tests/signup_v.html:8
 msgid "Sign up"
-msgstr "Авторизироваться"
+msgstr "Авторизироватся"
 
 #: app_tests/templates/app_tests/new_object.html:7
 msgid "New"
@@ -127,7 +153,7 @@ msgstr "Новый"
 
 #: app_tests/templates/app_tests/new_object.html:9
 msgid "submit"
-msgstr "подтвердить"
+msgstr "подтверить"
 
 #: app_tests/templates/app_tests/new_object.html:17
 #: app_tests/templates/app_tests/test_info.html:19
@@ -136,15 +162,15 @@ msgstr "удалить"
 
 #: app_tests/templates/app_tests/notes.html:6
 msgid "Notes:"
-msgstr "Заметки"
+msgstr "Заметки:"
 
 #: app_tests/templates/app_tests/notes.html:13
 msgid "Add another:"
-msgstr "Добавить другой:"
+msgstr "Добавить:"
 
 #: app_tests/templates/app_tests/notes.html:19
 msgid "post"
-msgstr "разместить"
+msgstr "разметить"
 
 #: app_tests/templates/app_tests/run_test_detail.html:5
 #: app_tests/templates/app_tests/test_info.html:9
@@ -158,11 +184,15 @@ msgstr "Пройденый тест:"
 #: app_tests/templates/app_tests/run_test_detail.html:8
 #: app_tests/templates/app_tests/test_info.html:7
 msgid "By:"
-msgstr "Проходил:"
+msgstr "Прошел:"
 
 #: app_tests/templates/app_tests/run_test_detail.html:11
 msgid "Question:"
 msgstr "Вопрос:"
+
+#: app_tests/templates/app_tests/run_test_detail.html:12
+msgid "Answer:"
+msgstr "Ответ:"
 
 #: app_tests/templates/app_tests/start_quiz.html:17
 msgid "Done"
@@ -186,10 +216,8 @@ msgstr "редактировать"
 
 #: app_tests/templates/app_tests/test_info.html:25
 msgid "Run Tests:"
-msgstr "Пройденные тесты:"
+msgstr "Пройденые Тесты:"
 
 #: app_tests/views.py:64
-#, fuzzy
-#| msgid "new test"
 msgid "test"
-msgstr "новый тест"
+msgstr "тест"

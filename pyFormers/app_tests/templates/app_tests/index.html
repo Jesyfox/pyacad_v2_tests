@@ -4,7 +4,7 @@
     <div>
         <form>
         <input name="title" id="title">
-        <input type="submit" name="search" value="Search">
+        <input type="submit" name="search" value="{% trans 'Search' %}">
         </form>
     </div>
     <h1><a href="{% url 'app_tests:new_object' 'test' %}">{% trans "new test" %}</a>
