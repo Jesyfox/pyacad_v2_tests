@@ -24,7 +24,7 @@
         </form>
         <h1><a href="/"> {% trans "Tests!" %} </a></h1>
         {% if user.is_authenticated %}
-        <p>{% trans "loged as:" %} {{ user.username }}, <a href="{% url 'app_tests:logout' %}">logout</a></p>
+        <p>{% trans "loged as:" %} {{ user.username }}, <a href="{% url 'app_tests:logout' %}">{% trans "logout" %}</a></p>
         {% else %}
         <p>{% trans "Please" %} <a href="{% url 'app_tests:signup' %}">{% trans "register" %}</a>
             /<a href="{% url 'app_tests:login' %}">{% trans "login" %}</a></p>

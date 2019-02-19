@@ -45,12 +45,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'pyFormers.urls'
@@ -117,6 +117,11 @@ LANGUAGES = [
     ('uk', _('Ukrainian')),
     ('en', _('English')),
     ('ru', _('Russian')),
+]
+
+SITE_ROOT = os.path.dirname(os.path.realpath(__name__))
+LOCALE_PATHS = [
+    os.path.join(SITE_ROOT, 'locale'),
 ]
 
 TIME_ZONE = 'UTC'

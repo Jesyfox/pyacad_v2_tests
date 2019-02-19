@@ -11,7 +11,7 @@
         <a href="{% url 'app_tests:new_object' 'question' %}">{% trans "new question" %}</a></h1>
 
     {% if tests %}
-    <h1>Avalible tests:</h1>
+    <h1>{% trans "Avalible tests:" %}</h1>
         {% if not_found_tests %}
             {% trans "no match" %}
         {% endif %}

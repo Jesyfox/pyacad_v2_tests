@@ -6,6 +6,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
 from .tasks import delete_test
@@ -60,10 +61,12 @@ def new_object(request, new_object):
 
     elif request.method == 'GET':
         if new_object == 'test':
-            context.update(form=TestForm)
+            name = _('test')
+            context.update(form=TestForm, name=name)
         elif new_object == 'question':
+            name = _('question')
             questions = Question.objects.all()
-            context.update(form=QuestionForm, questions=questions)
+            context.update(form=QuestionForm, questions=questions, name=name)
 
         return render(request, 'app_tests/new_object.html', context=context)
 
