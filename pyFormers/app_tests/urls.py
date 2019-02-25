@@ -26,5 +26,8 @@ urlpatterns += [
     url(r'^question/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
     url(r'^test/$', api_views.TestList.as_view()),
     url(r'^test/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
-
+    url(r'^run_test_answers/$', api_views.RunTestAnswersList.as_view()),
+    url(r'^run_test_answers/(?P<pk>[0-9]+)/$', api_views.RunTestAnswersDetail.as_view()),
+    url(r'^run_test/$', api_views.RunTestList.as_view()),
+    url(r'^run_test/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
 ]
