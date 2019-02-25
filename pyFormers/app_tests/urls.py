@@ -18,6 +18,13 @@ urlpatterns = [
     path('user/signup', views.sign_up, name='signup'),
     path('user/login', views.login_view, name='login'),
     path('i18n/', include('django.conf.urls.i18n'), name='set_language'),
-    url(r'^questions/$', api_views.QuestionList.as_view()),
-    url(r'^questions/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view())
+]
+
+
+urlpatterns += [
+    url(r'^question/$', api_views.QuestionList.as_view()),
+    url(r'^question/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
+    url(r'^test/$', api_views.TestList.as_view()),
+    url(r'^test/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
+
 ]
