@@ -23,7 +23,7 @@ class Test(models.Model):
 
 class RunTest(models.Model):
     name = models.CharField(_('name'), max_length=100)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -31,7 +31,7 @@ class RunTest(models.Model):
 
 
 class RunTestAnswers(models.Model):
-    run_test = models.ForeignKey(RunTest, on_delete=models.CASCADE)
+    run_test = models.ForeignKey(RunTest, on_delete=models.CASCADE, related_name='run_test')
     question = models.CharField(_('question'), max_length=300)
     answer = models.CharField(_('answer'), max_length=300)
 

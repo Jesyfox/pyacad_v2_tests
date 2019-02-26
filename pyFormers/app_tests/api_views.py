@@ -1,4 +1,4 @@
-from .models import Question, Test, RunTest, RunTestAnswers
+from .models import Question, Test, RunTest, NotedItem
 from . import serialaizers
 from rest_framework import generics
 
@@ -23,16 +23,6 @@ class TestDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serialaizers.TestSerializer
 
 
-class RunTestAnswersList(generics.ListCreateAPIView):
-    queryset = RunTestAnswers.objects.all()
-    serializer_class = serialaizers.RunTestAnswersSerializer
-
-
-class RunTestAnswersDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = RunTestAnswers.objects.all()
-    serializer_class = serialaizers.RunTestAnswersSerializer
-
-
 class RunTestList(generics.ListCreateAPIView):
     queryset = RunTest.objects.all()
     serializer_class = serialaizers.RunTestSerializer
@@ -41,3 +31,8 @@ class RunTestList(generics.ListCreateAPIView):
 class RunTestDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RunTest.objects.all()
     serializer_class = serialaizers.RunTestSerializer
+
+
+class NotedItemList(generics.ListCreateAPIView):
+    queryset = NotedItem.objects.all()
+    serializer_class = serialaizers.NoteItemSerializer

@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.forms.models import formset_factory
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
