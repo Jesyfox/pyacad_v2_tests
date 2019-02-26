@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
-from .forms import TestForm, QuestionForm, AnswerForm, NoteForm, Note
+from .forms import TestForm, QuestionForm, AnswerForm, NoteForm
 from .tasks import delete_test
 
 
@@ -171,7 +171,7 @@ def run_test_notes(request, runtest_id):
     if request.method == 'POST':
         note_form = NoteForm(request.POST)
         if note_form.is_valid():
-            note = Note.objects.create(note=note_form.cleaned_data['note'])
+            note = note_form.cleaned_data['note']
             note_item = NotedItem(note=note,
                                   content_type=ContentType.objects.get_for_model(run_test_obj),
                                   object_id=runtest_id)
@@ -190,7 +190,7 @@ def test_notes(request, test_id):
     if request.method == 'POST':
         note_form = NoteForm(request.POST)
         if note_form.is_valid():
-            note = Note.objects.create(note=note_form.cleaned_data['note'])
+            note = note_form.cleaned_data['note']
             note_item = NotedItem(note=note,
                                   content_type=ContentType.objects.get_for_model(test_obj),
                                   object_id=test_id)

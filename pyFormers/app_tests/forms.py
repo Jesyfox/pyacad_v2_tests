@@ -1,5 +1,5 @@
 from django import forms
-from .models import Test, Question, Note
+from .models import Test, Question, NotedItem
 from django.utils.translation import gettext_lazy as _
 
 
@@ -25,7 +25,7 @@ class QuestionForm(forms.ModelForm):
 
 class NoteForm(forms.ModelForm):
     class Meta:
-        model = Note
+        model = NotedItem
         fields = ['note', ]
         widgets = {
             'note': forms.Textarea(attrs={'cols': 40,

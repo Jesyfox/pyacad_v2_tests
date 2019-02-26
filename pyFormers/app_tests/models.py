@@ -39,15 +39,8 @@ class RunTestAnswers(models.Model):
         return f'run_test "{self.run_test}", question: {self.question}, answer: {self.answer}'
 
 
-class Note(models.Model):
-    note = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.note
-
-
 class NotedItem(models.Model):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    note = models.CharField(max_length=100)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
