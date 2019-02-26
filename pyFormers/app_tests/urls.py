@@ -1,5 +1,6 @@
 from django.urls import path, include
 from django.conf.urls import url
+from rest_framework.authtoken import views as token_views
 
 from . import views, api_views
 
@@ -29,4 +30,6 @@ urlpatterns += [
     url(r'^run_test/$', api_views.RunTestList.as_view()),
     url(r'^run_test/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
     url(r'^notes/$', api_views.NotedItemList.as_view()),
+
+    url(r'^api-token-auth/', token_views.obtain_auth_token)
 ]

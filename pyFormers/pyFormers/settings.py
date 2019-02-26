@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'app_tests',
 
     'django_celery_results',
-    'rest_framework'
+
+    'rest_framework',
+    'rest_framework.authtoken'
 
 ]
 
@@ -111,6 +113,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
