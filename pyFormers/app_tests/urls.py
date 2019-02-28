@@ -23,13 +23,11 @@ urlpatterns = [
 
 
 urlpatterns += [
-    url(r'^question/$', api_views.QuestionList.as_view()),
-    url(r'^question/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
-    url(r'^test/$', api_views.TestList.as_view()),
-    url(r'^test/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
-    url(r'^run_test/$', api_views.RunTestList.as_view()),
-    url(r'^run_test/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
-    url(r'^notes/$', api_views.NotedItemList.as_view()),
-
-    url(r'^api-token-auth/', token_views.obtain_auth_token)
+    url(r'^questions/$', api_views.QuestionList.as_view()),
+    url(r'^questions/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
+    url(r'^tests/$', api_views.TestList.as_view()),
+    url(r'^tests/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
+    url(r'^run_tests/$', api_views.RunTestList.as_view()),
+    url(r'^run_tests/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
+    url(r'^notes/$', api_views.NotedItemList.as_view())
 ]

@@ -6,6 +6,7 @@ django-celery-results==1.0.4
 djangorestframework==3.9.1
 kombu==4.3.0
 psycopg2==2.7.7
+psycopg2-binary==2.7.7
 pytz==2018.9
 redis==3.2.0
 vine==1.2.0

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
@@ -20,6 +20,7 @@ class Test(models.Model):
     name = models.CharField(_('name'), max_length=100)
     questions = models.ManyToManyField(Question)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    notes = GenericRelation('NotedItem')
 
     def __str__(self):
         return f'{self.name}'
@@ -29,6 +30,7 @@ class RunTest(models.Model):
     name = models.CharField(_('name'), max_length=100)
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    notes = GenericRelation('NotedItem')
 
     def __str__(self):
         return f'{self.name}'
