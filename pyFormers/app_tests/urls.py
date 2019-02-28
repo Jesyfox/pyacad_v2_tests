@@ -1,6 +1,8 @@
 from django.urls import path, include
+from django.conf.urls import url
+from rest_framework.authtoken import views as token_views
 
-from . import views
+from . import views, api_views
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -17,4 +19,15 @@ urlpatterns = [
     path('user/signup', views.sign_up, name='signup'),
     path('user/login', views.login_view, name='login'),
     path('i18n/', include('django.conf.urls.i18n'), name='set_language'),
+]
+
+
+urlpatterns += [
+    url(r'^questions/$', api_views.QuestionList.as_view()),
+    url(r'^questions/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
+    url(r'^tests/$', api_views.TestList.as_view()),
+    url(r'^tests/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
+    url(r'^run_tests/$', api_views.RunTestList.as_view()),
+    url(r'^run_tests/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
+    url(r'^notes/$', api_views.NotedItemList.as_view())
 ]
