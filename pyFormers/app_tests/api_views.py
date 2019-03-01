@@ -6,11 +6,13 @@ from rest_framework.decorators import action
 
 from .models import Question, Test, RunTest, NotedItem
 from . import serializers
+from . import permissions
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = serializers.QuestionSerializer
+    permission_classes = (permissions.JWordUsersNotAllowed,)
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
