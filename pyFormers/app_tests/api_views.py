@@ -2,17 +2,17 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework import permissions
 
 from .models import Question, Test, RunTest, NotedItem
 from . import serializers
-from . import permissions
+from . import permissions as app_permissions
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = serializers.QuestionSerializer
-    permission_classes = (permissions.JWordUsersNotAllowed,)
+    permission_classes = (permissions.IsAuthenticated, app_permissions.JWordUsersNotAllowed)
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -30,6 +30,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
     serializer_class = serializers.TestSerializer
+    permission_classes = (permissions.IsAuthenticated, app_permissions.JWordUsersNotAllowed)
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -47,6 +48,7 @@ class TestViewSet(viewsets.ModelViewSet):
 class RunTestViewSet(viewsets.ModelViewSet):
     queryset = RunTest.objects.all()
     serializer_class = serializers.RunTestSerializer
+    permission_classes = (permissions.IsAuthenticated, app_permissions.JWordUsersNotAllowed)
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -64,6 +66,7 @@ class RunTestViewSet(viewsets.ModelViewSet):
 class NotedItemViewSet(viewsets.ModelViewSet):
     queryset = NotedItem.objects.all()
     serializer_class = serializers.NoteItemSerializer
+    permission_classes = (permissions.IsAuthenticated, app_permissions.JWordUsersNotAllowed)
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
