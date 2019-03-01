@@ -12,13 +12,13 @@ class UserSerializer(serializers.ModelSerializer):
 class AttachedNoteItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotedItem
-        fields = ('note', )
+        fields = ('id', 'note')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ('text', )
+        fields = ('id', 'text')
 
 
 class TestSerializer(serializers.ModelSerializer):
@@ -34,7 +34,7 @@ class TestSerializer(serializers.ModelSerializer):
 class RunTestAnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = RunTestAnswers
-        fields = ('question', 'answer')
+        fields = ('id', 'question', 'answer')
 
 
 class RunTestSerializer(serializers.ModelSerializer):
@@ -74,4 +74,4 @@ class NoteItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NotedItem
-        fields = ('target_field','id', 'note')
+        fields = ('target_field', 'id', 'note')
