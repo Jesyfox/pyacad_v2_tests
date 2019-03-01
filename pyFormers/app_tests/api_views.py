@@ -1,38 +1,68 @@
+from django.shortcuts import get_object_or_404
+
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
+
 from .models import Question, Test, RunTest, NotedItem
-from . import serialaizers
-from rest_framework import generics
+from . import serializers
 
 
-class QuestionList(generics.ListCreateAPIView):
+class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
-    serializer_class = serialaizers.QuestionSerializer
+    serializer_class = serializers.QuestionSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        model_object = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(model_object)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        return super(QuestionViewSet, self).create(request, *args, **kwargs)
 
 
-class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Question.objects.all()
-    serializer_class = serialaizers.QuestionSerializer
-
-
-class TestList(generics.ListCreateAPIView):
+class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
-    serializer_class = serialaizers.TestSerializer
+    serializer_class = serializers.TestSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        model_object = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(model_object)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        return super(TestViewSet, self).create(request, *args, **kwargs)
 
 
-class TestDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Test.objects.all()
-    serializer_class = serialaizers.TestSerializer
-
-
-class RunTestList(generics.ListCreateAPIView):
+class RunTestViewSet(viewsets.ModelViewSet):
     queryset = RunTest.objects.all()
-    serializer_class = serialaizers.RunTestSerializer
+    serializer_class = serializers.RunTestSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        model_object = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(model_object)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        return super(RunTestViewSet, self).create(request, *args, **kwargs)
 
 
-class RunTestDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = RunTest.objects.all()
-    serializer_class = serialaizers.RunTestSerializer
-
-
-class NotedItemList(generics.ListCreateAPIView):
+class NotedItemViewSet(viewsets.ModelViewSet):
     queryset = NotedItem.objects.all()
-    serializer_class = serialaizers.NoteItemSerializer
+    serializer_class = serializers.NoteItemSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data)

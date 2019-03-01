@@ -23,11 +23,17 @@ urlpatterns = [
 
 
 urlpatterns += [
-    url(r'^questions/$', api_views.QuestionList.as_view()),
-    url(r'^questions/(?P<pk>[0-9]+)/$', api_views.QuestionDetail.as_view()),
-    url(r'^tests/$', api_views.TestList.as_view()),
-    url(r'^tests/(?P<pk>[0-9]+)/$', api_views.TestDetail.as_view()),
-    url(r'^run_tests/$', api_views.RunTestList.as_view()),
-    url(r'^run_tests/(?P<pk>[0-9]+)/$', api_views.RunTestDetail.as_view()),
-    url(r'^notes/$', api_views.NotedItemList.as_view())
+    url(r'^rest/questions/$', api_views.QuestionViewSet.as_view({'get': 'list'})),
+    url(r'^rest/questions/(?P<pk>[0-9]+)/$', api_views.QuestionViewSet.as_view({'get': 'retrieve'})),
+    url(r'^rest/questions/create/$', api_views.QuestionViewSet.as_view({'post': 'create'})),
+
+    url(r'^rest/tests/$', api_views.TestViewSet.as_view({'get': 'list'})),
+    url(r'^rest/tests/(?P<pk>[0-9]+)/$', api_views.TestViewSet.as_view({'get': 'retrieve'})),
+    url(r'^rest/tests/create/$', api_views.TestViewSet.as_view({'post': 'create'})),
+
+    url(r'^rest/run_tests/$', api_views.RunTestViewSet.as_view({'get': 'list'})),
+    url(r'^rest/run_tests/(?P<pk>[0-9]+)/$', api_views.RunTestViewSet.as_view({'get': 'retrieve'})),
+    url(r'^rest/run_tests/create/$', api_views.RunTestViewSet.as_view({'post': 'create'})),
+
+    url(r'^rest/notes/$', api_views.NotedItemViewSet.as_view({'get': 'list'}))
 ]
