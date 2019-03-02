@@ -24,4 +24,28 @@
     </div>
     {% endif %}
 
+    <script>
+        var token = {{ token }};
+
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/tests/' + token + '/');
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            console.error(message)
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        var message = 'Hello from front end';
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+
+    </script>
+
 {% endblock %}

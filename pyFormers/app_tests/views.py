@@ -20,7 +20,7 @@ def index(request):
     elif request.method == 'GET':
         tests = Test.objects.all()
         questions = Question.objects.all()
-    context.update(tests=tests, questions=questions)
+    context.update(tests=tests, questions=questions, token=123)
     return render(request, 'app_tests/index.html', context=context)
 
 

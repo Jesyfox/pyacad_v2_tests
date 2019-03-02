@@ -80,7 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pyFormers.wsgi.application'
-ASGI_APPLICATION = 'app_tests.routing.application'
+ASGI_APPLICATION = 'pyFormers.routing.application'
 
 
 # Database
