@@ -25,11 +25,10 @@
     {% endif %}
 
     <script>
-        var token = {{ token }};
 
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +
-            '/ws/tests/' + token + '/');
+            '/ws/tests/' + {{ token }} + '/');
 
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);

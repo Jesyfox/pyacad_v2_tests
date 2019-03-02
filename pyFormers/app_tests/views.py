@@ -6,6 +6,9 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+
+from rest_framework.authtoken.models import Token
+
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm
 from .tasks import delete_test
@@ -20,7 +23,12 @@ def index(request):
     elif request.method == 'GET':
         tests = Test.objects.all()
         questions = Question.objects.all()
-    context.update(tests=tests, questions=questions, token=123)
+
+    if request.user.is_authenticated:
+        token, created = Token.objects.get_or_create(user=request.user)
+        context.update(token=token)
+
+    context.update(tests=tests, questions=questions)
     return render(request, 'app_tests/index.html', context=context)
 
 
