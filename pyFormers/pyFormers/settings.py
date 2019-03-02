@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'django_celery_results',
 
+    'channels',
+
     'rest_framework',
     'rest_framework.authtoken'
 
@@ -78,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pyFormers.wsgi.application'
+ASGI_APPLICATION = 'app_tests.routing.application'
 
 
 # Database
