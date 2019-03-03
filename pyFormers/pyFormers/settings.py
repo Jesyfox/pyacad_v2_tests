@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'django_celery_results',
 
+    'channels',
+
     'rest_framework',
     'rest_framework.authtoken'
 
@@ -78,6 +80,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pyFormers.wsgi.application'
+
+ASGI_APPLICATION = 'pyFormers.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

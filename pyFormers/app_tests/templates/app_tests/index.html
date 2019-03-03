@@ -24,4 +24,23 @@
     </div>
     {% endif %}
 
+    <script>
+        var token = '{{ token }}';
+
+        var test_socket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/tests/' + '?token=' + token);
+
+        test_socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            if (message === "reloading") {
+                console.log(message)
+                location.reload();
+            }
+
+        };
+
+    </script>
+
 {% endblock %}

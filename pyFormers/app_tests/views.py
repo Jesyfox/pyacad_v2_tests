@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, HttpResponseRedirect
 from django.forms.models import formset_factory
@@ -6,6 +7,10 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+
+from rest_framework.authtoken.models import Token
+
+from .consumers import ws_reload_page
 from .models import Question, Test, RunTest, RunTestAnswers, NotedItem
 from .forms import TestForm, QuestionForm, AnswerForm, NoteForm
 from .tasks import delete_test
@@ -20,6 +25,11 @@ def index(request):
     elif request.method == 'GET':
         tests = Test.objects.all()
         questions = Question.objects.all()
+
+    if request.user.is_authenticated:
+        token, created = Token.objects.get_or_create(user=request.user)
+        context.update(token=token)
+
     context.update(tests=tests, questions=questions)
     return render(request, 'app_tests/index.html', context=context)
 
@@ -39,6 +49,7 @@ def new_object(request, new_object):
                 else:
                     named_test.user = None
                 named_test.save()
+                ws_reload_page()
 
                 if new_test.cleaned_data['delay'] == MINUTES:
                     minutes = int(new_test.cleaned_data['count'])
@@ -84,6 +95,7 @@ def detail_of_test(request, test_id):
         return edit_test(request, test_id)
     elif 'delete_test' in request.GET:
         get_object_or_404(Test, id=test_id).delete()
+        ws_reload_page()
         return redirect('/')
     elif request.method == 'GET':
         tests = get_object_or_404(Test, id=test_id)
