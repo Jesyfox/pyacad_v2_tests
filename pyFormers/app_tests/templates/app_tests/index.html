@@ -30,23 +30,15 @@
         var test_socket = new WebSocket(
             'ws://' + window.location.host +
             '/ws/tests/' + '?token=' + token);
-        console.log(test_socket)
 
         test_socket.onmessage = function(e) {
             var data = JSON.parse(e.data);
             var message = data['message'];
-            console.log(message)
-        };
+            if (message === "reloading") {
+                console.log(message)
+                location.reload();
+            }
 
-        test_socket.onclose = function(e) {
-            console.error('socket closed unexpectedly');
-        };
-
-        test_socket.onopen = function() {
-            var message = JSON.stringify({
-                'message': 'Hello from front end'
-            });
-            test_socket.send(message);
         };
 
     </script>
