@@ -6,6 +6,7 @@ class TestConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
         print('CONNECTED!')
+        print(self.scope)
 
     def disconnect(self, close_code):
         pass
@@ -16,5 +17,5 @@ class TestConsumer(WebsocketConsumer):
         print(f'recieving: {message}')
 
         self.send(text_data=json.dumps({
-            'message': message
+            'message': 'Hello from back end'
         }))

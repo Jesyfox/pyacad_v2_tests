@@ -3,5 +3,5 @@ from django.conf.urls import url
 from . import consumers
 
 websocket_urlpatterns = [
-    url(r'^ws/tests/(?P<token>[^/]+)/$', consumers.TestConsumer),
+    url(r'^ws/tests/$', consumers.TestConsumer),
 ]

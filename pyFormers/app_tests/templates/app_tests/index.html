@@ -29,7 +29,7 @@
 
         var test_socket = new WebSocket(
             'ws://' + window.location.host +
-            '/ws/tests/' + token + '/');
+            '/ws/tests/' + '?token=' + token);
         console.log(test_socket)
 
         test_socket.onmessage = function(e) {
@@ -39,7 +39,7 @@
         };
 
         test_socket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
+            console.error('socket closed unexpectedly');
         };
 
         test_socket.onopen = function() {
