@@ -6,7 +6,6 @@ class TestConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
         print('CONNECTED!')
-        print(self.scope)
 
     def disconnect(self, close_code):
         pass

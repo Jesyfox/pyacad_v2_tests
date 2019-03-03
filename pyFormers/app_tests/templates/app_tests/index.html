@@ -25,25 +25,29 @@
     {% endif %}
 
     <script>
+        var token = '{{ token }}';
 
-        var chatSocket = new WebSocket(
+        var test_socket = new WebSocket(
             'ws://' + window.location.host +
-            '/ws/tests/' + {{ token }} + '/');
+            '/ws/tests/' + token + '/');
+        console.log(test_socket)
 
-        chatSocket.onmessage = function(e) {
+        test_socket.onmessage = function(e) {
             var data = JSON.parse(e.data);
             var message = data['message'];
-            console.error(message)
+            console.log(message)
         };
 
-        chatSocket.onclose = function(e) {
+        test_socket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        var message = 'Hello from front end';
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }));
+        test_socket.onopen = function() {
+            var message = JSON.stringify({
+                'message': 'Hello from front end'
+            });
+            test_socket.send(message);
+        };
 
     </script>
 
