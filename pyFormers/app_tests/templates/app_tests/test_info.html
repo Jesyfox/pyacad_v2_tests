@@ -14,11 +14,9 @@
         {% endfor %}
         {% endif %}
 
-        <form>
-            <input type="submit" name="start_test" value="{% trans 'Start Quiz' %}">
-            <input type="submit" name="delete_test" value="{% trans 'delete' %}">
-            <input type="submit" name="edit_test" value="{% trans 'edit' %}">
-        </form>
+        <a href="{% url 'app_tests:run_test' test.id %}">{% trans 'Start Quiz' %}</a> *
+        <a href="{% url 'app_tests:delete_test' test.id %}">{% trans 'delete' %}</a> *
+        <a href="{% url 'app_tests:edit_test' test.id %}">{% trans 'edit' %}</a>
 
         {% if run_tests %}
 

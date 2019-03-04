@@ -89,15 +89,7 @@ def delete_question(request, q_id):
 
 def detail_of_test(request, test_id):
     context = {}
-    if 'start_test' in request.GET:
-        return run_test(request, test_id)
-    elif 'edit_test' in request.GET:
-        return edit_test(request, test_id)
-    elif 'delete_test' in request.GET:
-        get_object_or_404(Test, id=test_id).delete()
-        ws_reload_page()
-        return redirect('/')
-    elif request.method == 'GET':
+    if request.method == 'GET':
         tests = get_object_or_404(Test, id=test_id)
         questions = tests.questions.all()
         run_tests = RunTest.objects.filter(test=tests)
@@ -119,13 +111,19 @@ def edit_test(request, test_id):
         return render(request, 'app_tests/edit_test.html', context=context)
 
 
+def test_delete(request, test_id):
+    get_object_or_404(Test, id=test_id).delete()
+    ws_reload_page()
+    return redirect('/')
+
+
 def remove_q(request, test_id, q_id):
     if request.method == 'POST':
         test = get_object_or_404(Test, id=test_id)
         question = get_object_or_404(Question, id=q_id)
 
         test.questions.remove(question)
-        return redirect(f'/tests/{test_id}?edit_test=edit')
+        return redirect(f'/tests/{test_id}/edit')
 
 
 def add_q(request, test_id, q_id):
@@ -134,7 +132,7 @@ def add_q(request, test_id, q_id):
         question = Question.objects.get(id=q_id)
 
         test.questions.add(question)
-        return redirect(f'/tests/{test_id}?edit_test=edit')
+        return redirect(f'/tests/{test_id}/edit')
 
 
 def run_test(request, test_id):
