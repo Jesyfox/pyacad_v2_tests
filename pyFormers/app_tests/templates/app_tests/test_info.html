@@ -6,7 +6,7 @@
         {% if test.user %}
         <p><h2>{% trans "By:" %} {{ test.user }}</h2></p>
         {% endif %}
-        <h3><a href="{% url 'app_tests:test_notes' test.id %}">{% trans "discuss..." %}</a></h3>
+        <h3><a href="{% url 'app_tests:model_notes' 'tests' test.id %}">{% trans "discuss..." %}</a></h3>
         {% if questions %}
         <h2>{% trans "Questions:" %}</h2>
         {% for q in questions %}

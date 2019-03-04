@@ -172,12 +172,15 @@ def run_test_detail(request, runtest_id):
     return render(request, 'app_tests/run_test_detail.html', context=context)
 
 
-def run_test_notes(request, runtest_id):
-    run_test_obj = RunTest.objects.get(id=runtest_id)
+def model_notes(request, model_object, obj_id):
+    model_map = {'tests': Test,
+                 'run_tests': RunTest}
+
+    run_test_obj = model_map[model_object].objects.get(id=obj_id)
     context = {'type_info': run_test_obj.name,
                'form': NoteForm,
                'notes_obj': NotedItem.objects.filter(content_type=ContentType.objects.get_for_model(run_test_obj),
-                                                     object_id=runtest_id)}
+                                                     object_id=obj_id)}
 
     if request.method == 'POST':
         note_form = NoteForm(request.POST)
@@ -185,27 +188,10 @@ def run_test_notes(request, runtest_id):
             note = note_form.cleaned_data['note']
             note_item = NotedItem(note=note,
                                   content_type=ContentType.objects.get_for_model(run_test_obj),
-                                  object_id=runtest_id)
+                                  object_id=obj_id)
             note_item.save()
-
-    return render(request, 'app_tests/notes.html', context=context)
-
-
-def test_notes(request, test_id):
-    test_obj = Test.objects.get(id=test_id)
-    context = {'type_info': test_obj.name,
-               'form': NoteForm,
-               'notes_obj': NotedItem.objects.filter(content_type=ContentType.objects.get_for_model(test_obj),
-                                                     object_id=test_id)}
-
-    if request.method == 'POST':
-        note_form = NoteForm(request.POST)
-        if note_form.is_valid():
-            note = note_form.cleaned_data['note']
-            note_item = NotedItem(note=note,
-                                  content_type=ContentType.objects.get_for_model(test_obj),
-                                  object_id=test_id)
-            note_item.save()
+        else:
+            context.update(form=note_form)
 
     return render(request, 'app_tests/notes.html', context=context)
 

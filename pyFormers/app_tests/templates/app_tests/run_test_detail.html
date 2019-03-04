@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
     <div>
-        <h3><a href="{% url 'app_tests:run_test_notes' run_test.0.id %}">{% trans "discuss..." %}</a></h3></p>
+        <h3><a href="{% url 'app_tests:model_notes' 'run_tests' run_test.0.id %}">{% trans "discuss..." %}</a></h3></p>
         <h2>{% trans "Run test:" %} {{ run_test.0.name }}</h2>
         {% if run_test.0.user %}
         <h2>{% trans "By:" %} {{ run_test.0.user }}</h2>
