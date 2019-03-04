@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from django.utils.translation import gettext_lazy as _
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+try:
+    from .settings_local import *
+except ImportError as e:
+    print(e)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -27,6 +27,7 @@ SECRET_KEY = 'isxwr$o_l76e9_hoyvcv%q0_&)8u59+4g_7!glyk8ove#h98$e'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -89,21 +90,6 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6379)],
         },
     },
-}
-
-
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tests_db',
-        'USER': 'tester',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-    }
 }
 
 
