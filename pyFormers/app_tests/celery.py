@@ -5,8 +5,9 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pyFormers.settings')
 
 app = Celery('pyFormers',
-             backend='redis://redis:6379',
-             broker='redis://redis:6379')
+             backend=os.getenv('CELERY_BACKEND', 'redis://redis:6379'),
+             broker=os.getenv('CELERY_BROKER', 'redis://redis:6379')
+             )
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 

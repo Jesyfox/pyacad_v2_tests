@@ -9,11 +9,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tests_db',
-        'USER': 'tester',
-        'PASSWORD': '123456',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432
+        'NAME': os.getenv('POSTGRES_DB', 'tests_db'),
+        'USER': os.getenv('POSTGRES_USER', 'tester'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', '123456'),
+        'HOST': os.getenv('POSTGRES_HOST', 'db'),
+        'PORT': os.getenv('POSTGRES_PORT', 5432)
     }
 }
 

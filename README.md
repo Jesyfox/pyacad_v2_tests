@@ -6,6 +6,8 @@ need to be installed:
 
 2: postgresql
 
+3: docker
+
 to start:
 
 1: `python3 -m venv venv`
@@ -37,6 +39,10 @@ to start from docker:
 
 2: After installing all packages `Ctrl+C`
 
-3:  `docker-compose run web python3 manage.py migrate`
+3:  `docker-compose exec db psql -U postgres`
 
-4: `docker-compose up` 
+4: Do p. 6-8 above
+
+5:  `docker-compose run web python3 manage.py migrate`
+
+6: `docker-compose up` 
