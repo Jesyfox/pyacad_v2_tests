@@ -12,13 +12,22 @@ services:
       - POSTGRES_USER=tester
       - POSTGRES_PASSWORD=123456
       
+  celery:
+    build: .
+    command: celery -A app_tests worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     ports:
-     - "8000:8000"
+      - "8000:8000"
     volumes:
-     - .:/app
+      - .:/app
     depends_on:
       - db
     links:

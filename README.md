@@ -11,7 +11,6 @@ to start:
 1: `python3 -m venv venv`
 
 2: `. venv/bin/activate`
-
 3: `pip install -r requrements.txt`
 
 4: `sudo su - postgres`
@@ -31,3 +30,13 @@ to start:
 11: `celery -A app_tests worker --loglevel=info` on first terminal
 
 12 `./manage.py runserver` on second terminal
+
+to start from docker:
+
+1: `docker-compose up`
+
+2: After installing all packages `Ctrl+C`
+
+3:  `docker-compose run web python3 manage.py migrate`
+
+4: `docker-compose up` 
