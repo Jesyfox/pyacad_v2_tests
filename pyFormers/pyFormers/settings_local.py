@@ -12,9 +12,10 @@ DATABASES = {
         'NAME': 'tests_db',
         'USER': 'tester',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'HOST': 'db', # set in docker-compose.yml
+        'PORT': 5432
     }
 }
+
 
 
