@@ -21,5 +21,15 @@ services:
      - .:/app
     depends_on:
       - db
+    links:
+      - redis
+
+  worker:
+    build: .
+    command: python manage.py runworker channels "tests"
+    volumes:
+      - .:/app
+    links:
+      - redis
 
 
