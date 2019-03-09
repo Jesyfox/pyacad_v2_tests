@@ -21,14 +21,16 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 RUN pip install gunicorn
 
-EXPOSE 8000
+RUN pip install uwsgi
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+EXPOSE 8000
 
 RUN useradd \
     -g users \
     myuser
 
 USER myuser
+
+CMD uwsgi wsgi.ini
 
 ENV PYTHONUNBUFFERED 1
