@@ -10,9 +10,6 @@ services:
       - .:/app
 
     environment:
-      - POSTGRES_DB=tests_db
-      - POSTGRES_USER=tester
-      - POSTGRES_PASSWORD=123456
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - CELERY_BACKEND=redis://redis:6379
@@ -32,6 +29,10 @@ services:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=tests_db
+      - POSTGRES_USER=tester
+      - POSTGRES_PASSWORD=123456
 
   celery:
     build: .
@@ -44,7 +45,7 @@ services:
 
   worker:
     build: .
-    command: python manage.py runworker channels "tests"
+    command: gunicorn -w 2 pyFormers.wsgi:application
     volumes:
       - .:/app
     links:

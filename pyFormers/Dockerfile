@@ -19,8 +19,16 @@ COPY . /app
 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
+RUN pip install gunicorn
+
 EXPOSE 8000
 
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+
+RUN useradd \
+    -g users \
+    myuser
+
+USER myuser
 
 ENV PYTHONUNBUFFERED 1
